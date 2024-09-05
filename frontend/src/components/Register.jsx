@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom'; // Importe o hook useNavigate
+import { Link } from 'react-router-dom';
+import { IoArrowBack } from "react-icons/io5";
 
 const Register = () => {
   const [name, setName] = useState('');
@@ -8,7 +9,7 @@ const Register = () => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [message, setMessage] = useState('');
-  const navigate = useNavigate(); // Defina o hook useNavigate
+  const [isRegistered, setIsRegistered] = useState(false); 
 
   const handleRegister = async (e) => {
     e.preventDefault();
@@ -25,16 +26,11 @@ const Register = () => {
       
       setMessage('Usuário cadastrado com sucesso!');
       setError('');
-
-      // Limpar os campos
       setName('');
       setEmail('');
       setPassword('');
-
-      // Redirecionar para a tela de login após o cadastro
-      setTimeout(() => {
-        navigate('/login'); // Aqui você redireciona o usuário para a tela de login
-      }, 1500); // Espera 1.5 segundos para mostrar a mensagem antes de redirecionar
+      
+      setIsRegistered(true);
 
     } catch (error) {
       if (!error?.response) {
@@ -43,8 +39,13 @@ const Register = () => {
         setError(error.response.data.msg || 'Erro no cadastro');
       }
       setMessage('');
+      setIsRegistered(false);
     }
   };
+
+  if (isRegistered) {
+    window.location.href = '/'; 
+  }
 
   return (
     <div className='flex justify-center w-full max-w-md bg-white rounded-lg shadow-md p-8 flex-col'>
@@ -91,6 +92,11 @@ const Register = () => {
             Cadastrar
             </button>
         </form>
+        <div className='mt-3'>
+        <Link to="/"><IoArrowBack /></Link>
+
+        </div>
+
         {error && <p className='text-red-600 m-2'>{error}</p>}
         {message && <p className='text-green-600 m-2'>{message}</p>}
     </div>

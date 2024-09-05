@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -67,6 +68,8 @@ const Login = () => {
         >
           Login
         </button>
+        <Link to="/register">Cadastra-se</Link>
+
       </form>
       <p className='text-red-600 m-2'>{error}</p>
             </div>
